@@ -7,7 +7,7 @@ def test_function():
     inner_function()
 
 
-inner_function()
+
 
 
 
