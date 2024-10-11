@@ -8,7 +8,8 @@ class House:
         if new_floor < 1 or new_floor > self.number_of_floors:
             print("Такого этажа не существует")
         else:
-            print(new_floor)
+            for floor in range(1, new_floor+1):
+                print(floor)
 
 
 def main():
