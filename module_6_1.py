@@ -23,10 +23,8 @@ class Flower(Plant):
         super().__init__(name)
 
 
-class Fruit(Plant):
+class Fruit(Flower):
     edible = True
-    def __init__(self, name):
-        super().__init__(name)
 
 
 class Mammal(Animal):
