@@ -52,7 +52,7 @@ class Sedan(Vehicle):
 
         print(self.get_model())
         print(self.get_horsepower())
-        print(self.__color)
+        print(f'Цвет: {self.__color}')
 
 
 v1 = Sedan('Fedos', 'Toyota Mark II', 'blue', 500)
