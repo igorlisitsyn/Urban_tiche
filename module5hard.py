@@ -7,12 +7,12 @@ user_name = None
 class User:
     def __init__(self, nickname=None, password=None, age = None):
         self.nickname = nickname
-        self.password = password
+        self.password = hash(password)
         self.age = age
-        self.current_user = None
 
-    def __repr__(self):
-        pass
+
+    # def __repr__(self):
+    #     pass
 
 
 
@@ -23,40 +23,47 @@ class Video:
         self.time_now = time_now
         self.adult_mode = adult_mode
 
-class UrTube(User):
-    users = {}
+class UrTube:
+    users = []
 
     videos = []
     seach_video = []
-
+    current_user = []
 
     def __repr__(self):
-        if self.current_user is not None:
-            return f'Пользователь {self.current_user} уже существует'
+        if len(self.current_user) != 0:
+            return f'Пользователь {self.current_user[0]} уже существует'
 
     def register(self, nickname, password, age):
-        super().__init__(nickname, password, age)
-        # self.nickname = nickname
-        # self.password = password
-        # self.age = age
-        # self.current_user = None
-        self.test = 'jfsjlfksfjsjflskf'
-        if nickname in self.users:
-            # print(f" Такой пользователь {self.nickname} уже существует")
-            self.current_user = nickname
-        else:
-            self.users[nickname] = [self.password, self.age]
-            self.current_user = nickname
+        if len(self.users) == 0:
+            self.users.append(User(nickname, password, age))
+            self.current_user.append(nickname)
+            self.current_user.append(age)
+            return
 
-    def log_in(self, nickname, password,):
-        if nickname in self.users and hash(password) == hash(self.users[nickname][0]):
-            self.current_user = nickname
-        else:
-            self.current_user = None
-        return self.current_user
+        for name in self.users:
+            if nickname == name.nickname:
+                # print(f" Такой пользователь {self.nickname} уже существует")
+                self.log_out()
+                self.current_user.append(name.nickname)
+                self.current_user.append(name.age)
+            else:
+                self.users.append(User(nickname, password, age))
+                self.log_out()
+                self.current_user.append(name.nickname)
+                self.current_user.append(name.age)
+
+    def log_in(self, nickname, password):
+        for name in self.users:
+            if nickname == name.nickname and hash(password) == name.password:
+                self.current_user.append(name.nickname)
+                self.current_user.append(name.age)
+            else:
+                self.log_out()
+            return self.current_user
 
     def log_out(self):
-        self.current_user = None
+        self.current_user.clear()
 
     def add(self, *args):
         for film in args:
@@ -74,14 +81,17 @@ class UrTube(User):
 
     def watch_video(self, video_name):
         self.key = False
-        if self.current_user is None:
+        if len(self.current_user) == 0:
             print('Войдите в аккаунт, чтобы смотреть видео')
             return
         for film in self.videos:
             if film.title == video_name:
 
-                if self.users[self.current_user][1] < 18 and film.adult_mode is True:
+
+                if self.current_user[1] < 18 and film.adult_mode is True:
                     print('Вам нет 18 лет, пожалуйста покиньте страницу')
+                    self.log_out()
+
                     return
                 else:
                     self.key = True
@@ -108,6 +118,7 @@ print(ur.get_videos('ПРОГ'))
 
 ur.watch_video('Для чего девушкам парень программист?')
 ur.register('vasya_pupkin', 'lolkekcheburek', 13)
+
 ur.watch_video('Для чего девушкам парень программист?')
 ur.register('urban_pythonist', 'iScX4vIJClb9YQavjAgF', 25)
 ur.watch_video('Для чего девушкам парень программист?')
