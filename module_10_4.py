@@ -43,16 +43,25 @@ class Cafe:
 
 
     def discuss_guests(self):
-        key = True
-        while key:
+        # key = True
+        # while key:
+        #     for tab in self.tables:
+        #         tab.guest.start()
+        #         print(f'{tab.guest.name} откушал (откушала) и стол {tab.table_num} свободен')
+        #         if not self.queue.empty():
+        #             tab.guest = self.queue.get()
+        #             print(f'{tab.guest.name} вашел (-ла) из очереди и сел (-ла) за стол {tab.table_num}')
+        #     if self.queue.empty():
+        #         key = False
+        while not self.queue.empty() or any(table.guest is not None for table in self.tables):
             for tab in self.tables:
-                tab.guest.start()
-                print(f'{tab.guest.name} откушал (откушала) и стол {tab.table_num} свободен')
-                if not self.queue.empty():
+                if tab.guest and not tab.guest.is_alive():
+                    print(f'{tab.guest.name} откушал (откушала) и стол {tab.table_num} свободен')
+                    tab.guest = None
+                if tab.guest is None and not self.queue.empty():
                     tab.guest = self.queue.get()
                     print(f'{tab.guest.name} вашел (-ла) из очереди и сел (-ла) за стол {tab.table_num}')
-            if self.queue.empty():
-                key = False
+                    tab.guest.start()
 
 tables = [Table(number) for number in range(1, 6)]
 
