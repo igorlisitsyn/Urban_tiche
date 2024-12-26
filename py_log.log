@@ -1,0 +1,9 @@
+2024-12-26 15:25:49,604 WARNING Неверный тип для данных объекта Runner
+Traceback (most recent call last):
+  File "D:\proeckts\python\Udemi_ticher\test_12_4.py", line 75, in test_run
+    runn_2 = Runner(123, 5)
+  File "D:\proeckts\python\Udemi_ticher\test_12_4.py", line 13, in __init__
+    raise TypeError(f'Имя может быть только строкой, передано {type(name).__name__}')
+TypeError: Имя может быть только строкой, передано int
+2024-12-26 15:25:49,605 INFO test_walk выполнен успешно
+NoneType: None
